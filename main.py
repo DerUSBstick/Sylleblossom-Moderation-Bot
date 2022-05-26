@@ -56,6 +56,14 @@ def convert_to_unix(time):
     result = datetime.datetime.strptime(time, "%Y/%m/%dT%H:%M:%SZ").timestamp()
     return int(round(result))
 
+async def create_logs(reason, user: int, moderator: int, action):
+    user = await bot.fetch_user(user)
+    moderator = await bot.fetch_user(moderator)
+    embed = discord.Embed(title=f"{action}", description=f"Offender: {user} {user.mention}\nReason: {reason}\nResponsible moderator: {moderator}", color=0x00fff8)
+    embed.set_footer(text=f"{user.id}")
+    embed.timestamp = datetime.datetime.now()
+    channel = bot.get_channel(979335099143319562)
+    await channel.send(embed=embed)
 
 #Checks if the Husbando bots are online
 #If not, bot gets marked as temporarely offline, after 5 minutes the channel gets locked and a message appears
@@ -120,17 +128,23 @@ async def uptime(ctx):
 
 #Give and Remove someones Image Permissions in #artworks and so on
 @bot.command()
-@commands.has_any_role(854743362031452170, 854743507390693388, 939558108609523742)
-async def imperms(ctx, user: discord.Member):
+@commands.has_any_role(974770032993267803, 939558108609523742, 895753360920178699)
+async def imperms(ctx, user: discord.Member, *, reason=None):
     guild = ctx.guild
     user = ctx.guild.get_member(user.id)
     role = guild.get_role(958047463179169842)
-    if role in user.roles:
-        await user.remove_roles(role)
-        await ctx.send(f"{user.mention} has been Granted Image Permissions")
-    else:
-        await user.add_roles(role)
-        await ctx.send(f"Image Permissions have been denied for {user.mention}")
+    try:
+        if role in user.roles:
+            action = "Image Permissions Granted"
+            await user.remove_roles(role)
+            await ctx.send(f"{user.mention} has been Granted Image Permissions")
+        else:
+            action = "Image Permissions Denied"
+            await user.add_roles(role)
+            await ctx.send(f"Image Permissions have been denied for {user.mention}")
+        await create_logs(reason, user.id, ctx.message.author.id, action)
+    except Exception as e:
+        print(e)
 @bot.event
 async def on_ready():
     check_status.start()
