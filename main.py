@@ -13,7 +13,6 @@ from PIL import Image
 import io
 
 start = time.time() #When the bot started
-
 prefix = "-"
 intents = discord.Intents.default()
 intents.presences = True
