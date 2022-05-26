@@ -134,6 +134,7 @@ async def imperms(ctx, user: discord.Member):
         await ctx.send(f"Image Permissions have been denied for {user.mention}")
 @bot.event
 async def on_ready():
+    check_status.start()
     print(f"Logged in")
 
 bot.run("BOT_TOKEN")
