@@ -112,6 +112,17 @@ async def check_status():
     with open("bots.json", "w+") as f:
         json.dump(data, f, indent=4)
 
+@tasks.loop(minutes=5)
+async def subscriber_counter():
+    guild = bot.get_guild(980034765501636608)
+    channel_id = "YT_CHANNEL_ID"
+    key = "YT_API_KEY"
+
+    data = urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/channels?part=statistics&id={channel_id}&key={key}").read()
+    subs = json.loads(data)['items'][0]['statistics']['subscriberCount']
+    channel_counter = bot.get_channel(980034765501636608)
+    await channel_counter.edit(name=f"{subs} Subs")
+       
 #Simple Ping command
 @bot.command()
 async def ping(ctx):
@@ -147,6 +158,7 @@ async def imperms(ctx, user: discord.Member, *, reason=None):
         print(e)
 @bot.event
 async def on_ready():
+    subscriber_counter.start()
     check_status.start()
     print(f"Logged in")
 
