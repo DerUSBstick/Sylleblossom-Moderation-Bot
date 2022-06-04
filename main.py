@@ -168,6 +168,7 @@ async def on_message(message):
             embed.set_footer(text=f"{message.channel.id}_{message.author.id}_{message.id}_{im}")
             await log_channel.send(embed=embed)
             im += 1
+    await bot.process_commands(message)
         
 @bot.event
 async def on_ready():
