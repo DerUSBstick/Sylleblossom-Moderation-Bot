@@ -156,6 +156,19 @@ async def imperms(ctx, user: discord.Member, *, reason=None):
         await create_logs(reason, user.id, ctx.message.author.id, action)
     except Exception as e:
         print(e)
+        
+@bot.event
+async def on_message(message):
+    if message.attachments != []:
+        im = 0
+        log_channel = bot.get_channel(965623933871226890)
+        for x in message.attachments:
+            embed = discord.Embed(title=f"{message.author.name} posted an Image")
+            embed.set_image(url=x)
+            embed.set_footer(text=f"{message.channel.id}_{message.author.id}_{message.id}_{im}")
+            await log_channel.send(embed=embed)
+            im += 1
+        
 @bot.event
 async def on_ready():
     subscriber_counter.start()
