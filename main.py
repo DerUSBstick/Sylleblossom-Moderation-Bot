@@ -20,6 +20,93 @@ intents.members = True
 intents.messages = True
 bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents)
 
+#Important Code for 1 Year Anniversary
+
+@bot.command()
+@commands.is_owner()
+async def publish(ctx, poll_id: str):
+    with open("anniversary.json") as f:
+        data = json.load(f)
+    if poll_id not in data["options"]:
+        return await ctx.send("This Poll ID does not exist")
+    if data["questions"][f"{poll_id}"]["published"] == 1:
+        return await ctx.send(f"Poll ID `{poll_id}` has been published already")
+    question = data["questions"][f"{poll_id}"]["question"]
+    answers = [data["questions"][f"{poll_id}"]["a"], data["questions"][f"{poll_id}"]["b"], data["questions"][f"{poll_id}"]["c"], data["questions"][f"{poll_id}"]["d"]]
+
+    emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
+    embed = discord.Embed(title=question, description=f"{emojis[0]} {answers[0]}\n{emojis[1]} {answers[1]}\n{emojis[2]} {answers[2]}\n{emojis[3]} {answers[3]}", color=0x33d69f)
+    message = await ctx.send(embed=embed)
+    for x in emojis:
+        await message.add_reaction(x)
+    data["questions"][f"{poll_id}"]["published"] = 1
+    with open("anniversary.json", "w+") as f:
+        json.dump(data, f, indent=4)
+    #Writing required Evaluation Data
+    with open("anniversary_polls.json") as f:
+        data = json.load(f)
+    data["polls"].append(poll_id)
+    data[f"{poll_id}"] = {
+        "question": f"{question}",
+        "reactions": [],
+        "channel_id": ctx.channel.id,
+        "message_id": message.id
+    }
+    i = 0
+    for x in emojis:
+        data[f"{poll_id}"]["reactions"].append(x)
+        data[f"{poll_id}"][f"{x}"] = {
+            "answer": f"{answers[i]}",
+            "reaction_emoji": f"{x}",
+            "users": []
+        }
+        i += 1
+    with open("anniversary_polls.json", "w+") as f:
+        json.dump(data, f, indent=4)
+@tasks.loop(seconds=15)
+async def check_polls():
+    print(f"Checking Polls {round(time.time())}")
+    with open("anniversary.json") as f:
+        data = json.load(f)
+    with open("anniversary_polls.json") as f:
+        polls = json.load(f)
+    for x in polls["polls"]:
+        print(f"Checking Poll ID {x}")
+        if data["questions"][f"{x}"]["end"] != 0 and data["questions"][f"{x}"]["end"] < time.time() and data["questions"][f"{x}"]["evaluated"] == 0:
+            print(f"Proceeding Poll ID {x}")
+            #Check Polls
+            channel = bot.get_channel(polls[f"{x}"]["channel_id"])
+            poll_message = await channel.fetch_message(polls[f"{x}"]["message_id"])
+            votes = []
+            polls[f"{x}"]["reactions"] = []
+            for reaction in poll_message.reactions:
+                answer = polls[f"{x}"][f"{reaction.emoji}"]["answer"]
+                polls[f"{x}"]["reactions"].append(f"{reaction}")
+                polls[f"{x}"][f"{reaction.emoji}"] = {
+                    "answer": f"{answer}",
+                    "reaction_emoji": f"{reaction.emoji}",
+                    "users": []
+                }
+                reactors = await reaction.users().flatten()
+                for y in reactors:
+                    if y.id != 939568841325944852:
+                        polls[f"{x}"][f"{reaction.emoji}"]["users"].append(y.id)
+                        print(y, reaction.emoji)
+                if len(polls[f"{x}"][f"{reaction.emoji}"]["users"]) == 0:
+                    polls[f"{x}"][f"{reaction.emoji}"]["users"] = 0
+                    votes.append(0)
+                else:
+                    votes.append(len(polls[f"{x}"][f"{reaction.emoji}"]["users"]))
+            polls[f"{x}"]["votes"] = sorted(votes, reverse=True)
+            with open("anniversary_polls.json", "w+") as f:
+                json.dump(polls, f, indent=4)
+            data["questions"][f"{x}"]["evaluated"] = 1
+            with open("anniversary.json", "w+") as f:
+                json.dump(data, f, indent=4)
+#End of Important Code
+
+
+
 def parse_duration(duration: int):
     minutes, seconds = divmod(duration, 60)
     hours, minutes = divmod(minutes, 60)
