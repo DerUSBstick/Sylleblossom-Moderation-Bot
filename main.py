@@ -22,48 +22,53 @@ bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents
 
 #Important Code for 1 Year Anniversary
 
-@bot.command()
-@commands.is_owner()
-async def publish(ctx, poll_id: str):
+@tasks.loop(seconds=30)
+async def publish_polls():
+    os.system('cls')
+    print(f"Publishing Polls {round(time.time())}")
     with open("anniversary.json") as f:
         data = json.load(f)
-    if poll_id not in data["options"]:
-        return await ctx.send("This Poll ID does not exist")
-    if data["questions"][f"{poll_id}"]["published"] == 1:
-        return await ctx.send(f"Poll ID `{poll_id}` has been published already")
-    question = data["questions"][f"{poll_id}"]["question"]
-    answers = [data["questions"][f"{poll_id}"]["a"], data["questions"][f"{poll_id}"]["b"], data["questions"][f"{poll_id}"]["c"], data["questions"][f"{poll_id}"]["d"]]
-
+    with open("anniversary_polls.json") as f:
+        polls_data = json.load(f)
+    channel = bot.get_channel(886599665989079070)
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
-    embed = discord.Embed(title=question, description=f"{emojis[0]} {answers[0]}\n{emojis[1]} {answers[1]}\n{emojis[2]} {answers[2]}\n{emojis[3]} {answers[3]}", color=0x33d69f)
-    message = await ctx.send(embed=embed)
-    for x in emojis:
-        await message.add_reaction(x)
-    data["questions"][f"{poll_id}"]["published"] = 1
+    for x in data["options"]:
+        print(f"Checking Poll ID {x} for Publishing")
+        if data["questions"][f"{x}"]["published"] != 1 and data["questions"][f"{x}"]["start"] != 0 and data["questions"][f"{x}"]["start"] < time.time():
+            print(f"Publishing Poll ID {x}")
+            question = data["questions"][f"{x}"]["question"]
+            answers = [data["questions"][f"{x}"]["a"], data["questions"][f"{x}"]["b"], data["questions"][f"{x}"]["c"], data["questions"][f"{x}"]["d"]]
+            embed = discord.Embed(title=question, description=f"{emojis[0]} {answers[0]}\n{emojis[1]} {answers[1]}\n{emojis[2]} {answers[2]}\n{emojis[3]} {answers[3]}", color=0x33d69f)
+            message = await channel.send(embed=embed)
+            for y in emojis:
+                await message.add_reaction(y)
+            data["questions"][f"{x}"]["published"] = 1
+            data["questions"][f"{x}"]["end"] = round(time.time()) + 120
+            #Writing Evaluation Data
+            polls_data["polls"].append(x)
+            polls_data[f"{x}"] = {
+                "question": f"{question}",
+                "reactions": [],
+                "channel_id": message.channel.id,
+                "message_id": message.id
+            }
+            i = 0
+            for y in emojis:
+                polls_data[f"{x}"]["reactions"].append(y)
+                polls_data[f"{x}"][f"{y}"] = {
+                    "answer": f"{answers[i]}",
+                    "reaction_emoji": f"{y}",
+                    "users": []
+                }
+                i += 1
     with open("anniversary.json", "w+") as f:
         json.dump(data, f, indent=4)
-    #Writing required Evaluation Data
-    with open("anniversary_polls.json") as f:
-        data = json.load(f)
-    data["polls"].append(poll_id)
-    data[f"{poll_id}"] = {
-        "question": f"{question}",
-        "reactions": [],
-        "channel_id": ctx.channel.id,
-        "message_id": message.id
-    }
-    i = 0
-    for x in emojis:
-        data[f"{poll_id}"]["reactions"].append(x)
-        data[f"{poll_id}"][f"{x}"] = {
-            "answer": f"{answers[i]}",
-            "reaction_emoji": f"{x}",
-            "users": []
-        }
-        i += 1
     with open("anniversary_polls.json", "w+") as f:
-        json.dump(data, f, indent=4)
-@tasks.loop(seconds=15)
+        json.dump(polls_data, f, indent=4)
+    print("\n")
+    await check_polls()
+
+
 async def check_polls():
     print(f"Checking Polls {round(time.time())}")
     with open("anniversary.json") as f:
@@ -75,6 +80,7 @@ async def check_polls():
         if data["questions"][f"{x}"]["end"] != 0 and data["questions"][f"{x}"]["end"] < time.time() and data["questions"][f"{x}"]["evaluated"] == 0:
             print(f"Proceeding Poll ID {x}")
             #Check Polls
+            data["questions"][f"{x}"]["evaluated"] = 1
             channel = bot.get_channel(polls[f"{x}"]["channel_id"])
             poll_message = await channel.fetch_message(polls[f"{x}"]["message_id"])
             votes = []
@@ -98,11 +104,11 @@ async def check_polls():
                 else:
                     votes.append(len(polls[f"{x}"][f"{reaction.emoji}"]["users"]))
             polls[f"{x}"]["votes"] = sorted(votes, reverse=True)
-            with open("anniversary_polls.json", "w+") as f:
-                json.dump(polls, f, indent=4)
-            data["questions"][f"{x}"]["evaluated"] = 1
-            with open("anniversary.json", "w+") as f:
-                json.dump(data, f, indent=4)
+    with open("anniversary_polls.json", "w+") as f:
+        json.dump(polls, f, indent=4)
+    with open("anniversary.json", "w+") as f:
+        json.dump(data, f, indent=4)
+    print("\n")
 #End of Important Code
 
 
