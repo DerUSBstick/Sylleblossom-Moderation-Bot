@@ -22,7 +22,7 @@ bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents
 
 #Important Code for 1 Year Anniversary
 
-@tasks.loop(seconds=30)
+@tasks.loop(seconds=20)
 async def publish_polls():
     os.system('cls')
     print(f"Publishing Polls {round(time.time())}")
@@ -30,7 +30,7 @@ async def publish_polls():
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls_data = json.load(f)
-    channel = bot.get_channel(886599665989079070)
+    channel = bot.get_channel(854733975977197568)
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
     for x in data["options"]:
         print(f"Checking Poll ID {x} for Publishing")
@@ -43,7 +43,7 @@ async def publish_polls():
             for y in emojis:
                 await message.add_reaction(y)
             data["questions"][f"{x}"]["published"] = 1
-            data["questions"][f"{x}"]["end"] = round(time.time()) + 120
+            data["questions"][f"{x}"]["end"] = round(time.time()) + 180
             #Writing Evaluation Data
             polls_data["polls"].append(x)
             polls_data[f"{x}"] = {
@@ -77,10 +77,10 @@ async def check_polls():
         polls = json.load(f)
     for x in polls["polls"]:
         print(f"Checking Poll ID {x}")
-        if data["questions"][f"{x}"]["end"] != 0 and data["questions"][f"{x}"]["end"] < time.time() and data["questions"][f"{x}"]["evaluated"] == 0:
+        if data["questions"][f"{x}"]["end"] != 0 and data["questions"][f"{x}"]["end"] < time.time() and data["questions"][f"{x}"]["collected"] == 0:
             print(f"Proceeding Poll ID {x}")
             #Check Polls
-            data["questions"][f"{x}"]["evaluated"] = 1
+            data["questions"][f"{x}"]["collected"] = 1
             channel = bot.get_channel(polls[f"{x}"]["channel_id"])
             poll_message = await channel.fetch_message(polls[f"{x}"]["message_id"])
             votes = []
@@ -109,6 +109,57 @@ async def check_polls():
     with open("anniversary.json", "w+") as f:
         json.dump(data, f, indent=4)
     print("\n")
+    await evaluate_poll()
+
+async def evaluate_poll():
+    print(f"Evaluating Polls {round(time.time())}")
+    with open("anniversary.json") as f:
+        data = json.load(f)
+    with open("anniversary_polls.json") as f:
+        polls = json.load(f)
+    for x in polls["polls"]:
+        print(f"Checking Poll ID {x}")
+        if data["questions"][f"{x}"]["collected"] == 1 and data["questions"][f"{x}"]["evaluated"] == 0:
+            print(f"Evaluating Poll ID {x}")
+            data["questions"][f"{x}"]["evaluated"] = 1
+            channel = bot.get_channel(polls[f"{x}"]["channel_id"])
+            message = await channel.fetch_message(polls[f"{x}"]["message_id"])
+            d = []
+            total_votes = 0
+            n = 1
+            q = polls[f"{x}"]["question"]
+            for y in polls[f"{x}"]["reactions"]:
+                if polls[f"{x}"][f"{y}"]["users"] == 0:
+                    votes = 0
+                else:
+                    votes = int(len(polls[f"{x}"][f"{y}"]["users"]))
+                total_votes += votes
+            desc = "```md\n"
+            for y in polls[f"{x}"]["votes"]:
+                for z in polls[f"{x}"]["reactions"]:
+                    if polls[f"{x}"][f"{z}"]["users"] != 0:
+                        votes = int(len(polls[f"{x}"][f"{z}"]["users"]))
+                        if int(y) == votes and z not in d:
+                            amount = str(round(((votes/total_votes)*100), 2))
+                            answer = polls[f"{x}"][f"{z}"]["answer"]
+                            space = ""
+                            if len(amount) == 4:
+                                amount += "0"
+                                if len(str(n)) == 1:
+                                    space = " "
+                                else:
+                                    space = ""
+                            desc += f"{n}. {space}| {amount}% | {answer}\n"
+                            n += 1
+                            d.append(z)
+            c = 0x0062ff
+            desc += "\n```"
+            embed = discord.Embed(title=q, description=desc, color=0x33d69f)
+            await message.edit(embed=embed)
+    with open("anniversary_polls.json", "w+") as f:
+        json.dump(polls, f, indent=4)
+    with open("anniversary.json", "w+") as f:
+        json.dump(data, f, indent=4)
 #End of Important Code
 
 
