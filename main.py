@@ -43,7 +43,7 @@ async def publish_polls():
             for y in emojis:
                 await message.add_reaction(y)
             data["questions"][f"{x}"]["published"] = 1
-            data["questions"][f"{x}"]["end"] = round(time.time()) + 180
+            data["questions"][f"{x}"]["end"] = round(time.time()) + 300
             #Writing Evaluation Data
             polls_data["polls"].append(x)
             polls_data[f"{x}"] = {
@@ -160,6 +160,87 @@ async def evaluate_poll():
         json.dump(polls, f, indent=4)
     with open("anniversary.json", "w+") as f:
         json.dump(data, f, indent=4)
+
+@bot.command()
+@commands.is_owner()
+async def results(ctx):
+    guild = ctx.guild
+    VISION_ROLES = ["Anemo", "Pyro", "Hydro", "Electro", "Cryo", "Geo", "Dendro"]
+    with open("anniversary.json") as f:
+        data = json.load(f)
+    with open("anniversary_polls.json") as f:
+        polls = json.load(f)
+    with open("results.json") as f:
+        result = json.load(f)
+    for poll in polls["polls"]:
+        if data["questions"][f"{poll}"]["evaluated"] == 1:
+            result["poll"].append(poll)
+            result[f"{poll}"] = {
+                "Anemo": 0,
+                "Pyro": 0,
+                "Hydro": 0,
+                "Electro": 0,
+                "Cryo": 0,
+                "Geo": 0,
+                "Dendro": 0
+            }
+            dismiss = await check_dup(poll, polls)
+            for reaction in polls[f"{poll}"]["reactions"]:
+                for user in polls[f"{poll}"][f"{reaction}"]["users"]:
+                    if user not in dismiss:
+                        user = guild.get_member(user)
+                        for role in user.roles:
+                            if role.name in VISION_ROLES:
+                                result[f"{poll}"][f"{role.name}"] += 1
+                                result["end_results"][f"{role.name}"] += 1
+    VOTES = []
+    TOTAL_VOTES = 0
+    for votes in result["end_results"]:
+        TOTAL_VOTES += result["end_results"][f"{votes}"]
+        VOTES.append(result["end_results"][f"{votes}"])
+    result["total_votes"] = TOTAL_VOTES
+    result["all_votes"] = sorted(VOTES, reverse=True)
+    with open("results.json", "w+") as f:
+        json.dump(result, f, indent=4) 
+
+@bot.command()
+@commands.is_owner()
+async def announce_vision(ctx):
+    with open("results.json") as f:
+        result = json.load(f)
+    
+
+    d = []
+    TOTAL_VOTES = result["total_votes"]
+    n = 1
+    desc = "```md\n"
+    for ALL_VOTES in result["all_votes"]:
+        for VISION in result["end_results"]:
+            if ALL_VOTES == result["end_results"][f"{VISION}"] and VISION not in d:
+                d.append(VISION)
+                print(ALL_VOTES, VISION)
+                amount = str(round(((ALL_VOTES/TOTAL_VOTES)*100), 2))
+                space = ""
+                if len(amount) == 4:
+                    amount += "0"
+                if len(str(n)) == 1:
+                    space = " "
+                desc += f"{n}. {space}| {amount}% | {VISION}\n"
+                n += 1
+    c = 0x0062ff
+    desc += "\n```"
+    embed = discord.Embed(title="Vision vs. Vision Results", description=desc, color=0x33d69f)
+    await ctx.send(embed=embed)
+
+async def check_dup(poll, list):
+    a = []
+    dismiss = []
+    for reaction in list[f"{poll}"]["reactions"]:
+        for user in list[f"{poll}"][f"{reaction}"]["users"]:
+            if user in a:
+                dismiss.append(user)
+            a.append(user)
+    return dismiss
 #End of Important Code
 
 
