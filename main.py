@@ -193,11 +193,14 @@ async def results(ctx):
             dismiss = await check_dup(poll, polls)
             for user in polls[f"{poll}"][f"{ANSWER}"]["users"]:
                     if user not in dismiss:
-                        user = guild.get_member(user)
-                        for role in user.roles:
-                            if role.name in VISION_ROLES:
-                                result[f"{poll}"][f"{role.name}"] += 1
-                                result["end_results"][f"{role.name}"] += 1
+                        try:
+                            user = guild.get_member(user)
+                            for role in user.roles:
+                                if role.name in VISION_ROLES:
+                                    result[f"{poll}"][f"{role.name}"] += 1
+                                    result["end_results"][f"{role.name}"] += 1
+                        except:
+                            pass
     VOTES = []
     TOTAL_VOTES = 0
     for votes in result["end_results"]:
