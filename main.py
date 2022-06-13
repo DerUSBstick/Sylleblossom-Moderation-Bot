@@ -30,7 +30,7 @@ async def publish_polls():
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls_data = json.load(f)
-    channel = bot.get_channel(854733975977197568)
+    channel = bot.get_channel(886599665989079070)
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
     for x in data["options"]:
         print(f"Checking Poll ID {x} for Publishing")
@@ -43,7 +43,7 @@ async def publish_polls():
             for y in emojis:
                 await message.add_reaction(y)
             data["questions"][f"{x}"]["published"] = 1
-            data["questions"][f"{x}"]["end"] = round(time.time()) + 300
+            data["questions"][f"{x}"]["end"] = round(time.time()) + 30
             #Writing Evaluation Data
             polls_data["polls"].append(x)
             polls_data[f"{x}"] = {
@@ -174,6 +174,12 @@ async def results(ctx):
         result = json.load(f)
     for poll in polls["polls"]:
         if data["questions"][f"{poll}"]["evaluated"] == 1:
+            ANSWER = data["questions"][f"{poll}"]["answer"]
+            ANSWER = ANSWER.replace("a", "1\ufe0f\u20e3")
+            ANSWER = ANSWER.replace("b", "2\ufe0f\u20e3")
+            ANSWER = ANSWER.replace("c", "3\ufe0f\u20e3")
+            ANSWER = ANSWER.replace("d", "4\ufe0f\u20e3")
+            print(ANSWER)
             result["poll"].append(poll)
             result[f"{poll}"] = {
                 "Anemo": 0,
@@ -185,8 +191,7 @@ async def results(ctx):
                 "Dendro": 0
             }
             dismiss = await check_dup(poll, polls)
-            for reaction in polls[f"{poll}"]["reactions"]:
-                for user in polls[f"{poll}"][f"{reaction}"]["users"]:
+            for user in polls[f"{poll}"][f"{ANSWER}"]["users"]:
                     if user not in dismiss:
                         user = guild.get_member(user)
                         for role in user.roles:
@@ -233,14 +238,19 @@ async def announce_vision(ctx):
     await ctx.send(embed=embed)
 
 async def check_dup(poll, list):
+    print(poll)
+    print("\n\n\n\n")
+    print(list)
     a = []
     dismiss = []
     for reaction in list[f"{poll}"]["reactions"]:
-        for user in list[f"{poll}"][f"{reaction}"]["users"]:
-            if user in a:
-                dismiss.append(user)
-            a.append(user)
+        if list[f"{poll}"][f"{reaction}"]["users"] != 0:
+            for user in list[f"{poll}"][f"{reaction}"]["users"]:
+                if user in a:
+                    dismiss.append(user)
+                a.append(user)
     return dismiss
+
 #End of Important Code
 
 
