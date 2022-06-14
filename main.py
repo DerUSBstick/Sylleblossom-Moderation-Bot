@@ -30,7 +30,7 @@ async def publish_polls():
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls_data = json.load(f)
-    channel = bot.get_channel(886599665989079070)
+    channel = bot.get_channel(984422457870000178)
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
     for x in data["options"]:
         print(f"Checking Poll ID {x} for Publishing")
@@ -43,7 +43,7 @@ async def publish_polls():
             for y in emojis:
                 await message.add_reaction(y)
             data["questions"][f"{x}"]["published"] = 1
-            data["questions"][f"{x}"]["end"] = round(time.time()) + 30
+            data["questions"][f"{x}"]["end"] = round(time.time()) + 172800 #Seconds till evaluation of poll
             #Writing Evaluation Data
             polls_data["polls"].append(x)
             polls_data[f"{x}"] = {
@@ -216,8 +216,6 @@ async def results(ctx):
 async def announce_vision(ctx):
     with open("results.json") as f:
         result = json.load(f)
-    
-
     d = []
     TOTAL_VOTES = result["total_votes"]
     n = 1
@@ -241,9 +239,6 @@ async def announce_vision(ctx):
     await ctx.send(embed=embed)
 
 async def check_dup(poll, list):
-    print(poll)
-    print("\n\n\n\n")
-    print(list)
     a = []
     dismiss = []
     for reaction in list[f"{poll}"]["reactions"]:
