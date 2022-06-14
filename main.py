@@ -22,7 +22,7 @@ bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents
 
 #Important Code for 1 Year Anniversary
 
-@tasks.loop(seconds=20)
+@tasks.loop(seconds=45)
 async def publish_polls():
     os.system('cls')
     print(f"Publishing Polls {round(time.time())}")
@@ -30,16 +30,19 @@ async def publish_polls():
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls_data = json.load(f)
-    channel = bot.get_channel(984422457870000178)
+    channel = bot.get_channel(886599665989079070)
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
     for x in data["options"]:
-        print(f"Checking Poll ID {x} for Publishing")
+        timer = "Published"
+        if data["questions"][f"{x}"]["published"] != 1:
+            timer = parse_duration(data["questions"][f"{x}"]["start"] - round(time.time()))
+        print(f"Checking Poll ID {x} for Publishing ({timer})")
         if data["questions"][f"{x}"]["published"] != 1 and data["questions"][f"{x}"]["start"] != 0 and data["questions"][f"{x}"]["start"] < time.time():
             print(f"Publishing Poll ID {x}")
             question = data["questions"][f"{x}"]["question"]
             answers = [data["questions"][f"{x}"]["a"], data["questions"][f"{x}"]["b"], data["questions"][f"{x}"]["c"], data["questions"][f"{x}"]["d"]]
             embed = discord.Embed(title=question, description=f"{emojis[0]} {answers[0]}\n{emojis[1]} {answers[1]}\n{emojis[2]} {answers[2]}\n{emojis[3]} {answers[3]}", color=0x33d69f)
-            message = await channel.send(embed=embed)
+            message = await channel.send(content="<@&984896279668736040>", embed=embed)
             for y in emojis:
                 await message.add_reaction(y)
             data["questions"][f"{x}"]["published"] = 1
@@ -65,18 +68,22 @@ async def publish_polls():
         json.dump(data, f, indent=4)
     with open("anniversary_polls.json", "w+") as f:
         json.dump(polls_data, f, indent=4)
-    print("\n")
+    await asyncio.sleep(10)
     await check_polls()
 
 
 async def check_polls():
+    os.system('cls')
     print(f"Checking Polls {round(time.time())}")
     with open("anniversary.json") as f:
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls = json.load(f)
     for x in polls["polls"]:
-        print(f"Checking Poll ID {x}")
+        timer = "Collected"
+        if data["questions"][f"{x}"]["collected"] == 0:
+            timer = parse_duration(data["questions"][f"{x}"]["end"] - round(time.time()))
+        print(f"Checking Poll ID {x} ({timer})")
         if data["questions"][f"{x}"]["end"] != 0 and data["questions"][f"{x}"]["end"] < time.time() and data["questions"][f"{x}"]["collected"] == 0:
             print(f"Proceeding Poll ID {x}")
             #Check Polls
@@ -108,16 +115,20 @@ async def check_polls():
         json.dump(polls, f, indent=4)
     with open("anniversary.json", "w+") as f:
         json.dump(data, f, indent=4)
-    print("\n")
+    await asyncio.sleep(10)
     await evaluate_poll()
 
 async def evaluate_poll():
+    os.system('cls')
     print(f"Evaluating Polls {round(time.time())}")
     with open("anniversary.json") as f:
         data = json.load(f)
     with open("anniversary_polls.json") as f:
         polls = json.load(f)
     for x in polls["polls"]:
+        timer = "Evaluated"
+        if data["questions"][f"{x}"]["evaluated"] == 0:
+            timer = parse_duration(data["questions"][f"{x}"]["end"] - round(time.time()))
         print(f"Checking Poll ID {x}")
         if data["questions"][f"{x}"]["collected"] == 1 and data["questions"][f"{x}"]["evaluated"] == 0:
             print(f"Evaluating Poll ID {x}")
