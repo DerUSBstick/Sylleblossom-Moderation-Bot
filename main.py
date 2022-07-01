@@ -20,6 +20,38 @@ intents.members = True
 intents.messages = True
 bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents)
 
+@bot.command()
+async def stats(ctx):
+    with open("stats.json") as f:
+        stats = json.load(f)
+    #"Anemo", "Pyro", "Hydro", "Electro", "Cryo", "Geo", "Dendro"],
+    VISION_EMOJIS = {
+        "Anemo": "<:Anemo:854743841289273384>",
+        "Pyro": "<:Pyro:854743894012985375>",
+        "Hydro": "<:Hydro:854743924110655488>",
+        "Electro": "<:Electro:854743861019803658>",
+        "Cryo": "<:Cryo:854743908756226078>",
+        "Geo": "<:Geo:854743937918566401>",
+        "Dendro": "<:Dendro:854743874492039168>"
+    }
+    desc = ""
+    if ctx.message.author.id not in stats["1-year-anniversary"]["participants"]:
+        return await ctx.send("You did not participate in the 1-Year Anniversary. There are no stats for your ID.")
+    desc = "You participated for the following Visions:\n\n"
+    for VISION in stats["1-year-anniversary"][f"{ctx.message.author.id}"]["team"]:
+        emoji = VISION_EMOJIS[f"{VISION}"]
+        desc += f"{emoji} {VISION}\n"
+    polls = stats["1-year-anniversary"][f"{ctx.message.author.id}"]["polls"]
+    correct_answers = stats["1-year-anniversary"][f"{ctx.message.author.id}"]["correct_answers"]
+    wrong_answers = stats["1-year-anniversary"][f"{ctx.message.author.id}"]["wrong_answers"]
+    dismissed_votes = stats["1-year-anniversary"][f"{ctx.message.author.id}"]["dismissed_answers"]
+    desc += f"\nYou voted in **{polls}/44** Polls. Out of **{polls}** Answers, **{correct_answers}** were correct and **{wrong_answers}** not. Due to voting multiple times on a poll, **{dismissed_votes}** Votes have not been counted."
+
+
+    embed = discord.Embed(title="1-Year-Anniversary Stats", description=desc, color=0x00bfff)
+    embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+    await ctx.send(embed=embed)
+
 #Important Code for 1 Year Anniversary
 
 @tasks.loop(seconds=45)
