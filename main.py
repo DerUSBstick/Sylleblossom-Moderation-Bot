@@ -433,6 +433,58 @@ async def imperms(ctx, user: discord.Member, *, reason=None):
     except Exception as e:
         print(e)
         
+#Counting Module
+async def counting_message(message):
+    if message.webhook_id == None:
+        with open("counting.json") as f:
+            counting = json.load(f)
+        if message.content != str(counting["current_count"]):
+            return await message.delete()
+        counting["current_count"] += 1
+        if message.author.id in counting["users"]:
+            counting[f"{message.author.id}"] += 1
+        else:
+            counting["users"].append(message.author.id)
+            counting[f"{message.author.id}"] = 1
+        await counting_webhook(message.author.name, message.author.avatar_url, counting["current_count"] - 1)
+        if counting["webhook"]["last"] < 3:
+            counting["webhook"]["last"] += 1
+        else:
+            counting["webhook"]["last"] = 1
+        counting["recovery"] = {
+            "last_message": f"{message.created_at}",
+            "user": message.author.id
+        }
+        with open("counting.json", "w+") as f:
+            json.dump(counting, f, indent=4)
+        await message.delete()
+
+async def counting_webhook(USERNAME, USER_AVATAR_URL, NUMBER):
+    with open("counting.json") as f:
+        data = json.load(f)
+    last = data["webhook"]["last"]
+    webhook = data["webhook"][f"{last}"]
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(f'{webhook}', adapter=AsyncWebhookAdapter(session))
+        await webhook.send(content=NUMBER, username=USERNAME, avatar_url=USER_AVATAR_URL)
+        await session.close()
+
+async def counting_recovery_mode():
+    messages = [0]
+    while messages != []:
+        with open("counting.json") as f:
+            data = json.load(f)
+        channel = bot.get_channel(data["channel"])
+        time = await convert_to_date(data["recovery"]["last_message"])
+        messages = await channel.history(limit=3, after=time).flatten()
+        if messages != []:
+            for message in messages:
+                await counting_message(message)
+async def convert_to_date(time):
+    time = time.split(".")[0].replace("-", "/")
+    result = datetime.datetime.strptime(time, "%Y/%m/%d %H:%M:%S")
+    return result        
+        
 @bot.event
 async def on_message(message):
     if message.attachments != []:
@@ -444,10 +496,13 @@ async def on_message(message):
             embed.set_footer(text=f"{message.channel.id}_{message.author.id}_{message.id}_{im}")
             await log_channel.send(embed=embed)
             im += 1
+    if message.channel.id == 981634202049069106:
+        await counting_message(message)
     await bot.process_commands(message)
         
 @bot.event
 async def on_ready():
+    await counting_recovery_mode()
     subscriber_counter.start()
     check_status.start()
     print(f"Logged in")
