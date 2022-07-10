@@ -11,6 +11,7 @@ import aiohttp
 import urllib.request
 from PIL import Image
 import io
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType, component, Select, SelectOption
 
 start = time.time() #When the bot started
 prefix = "-"
@@ -434,6 +435,44 @@ async def imperms(ctx, user: discord.Member, *, reason=None):
         print(e)
         
 #Counting Module
+@bot.command()
+@commands.is_owner()
+async def leaderboard(ctx):
+    message = await ctx.send(
+        components=[
+            Select(
+                placeholder="Choose an leaderboard",
+                options=[
+                    SelectOption(label="Counting Leaderboard", value="counting")
+                ],
+                custom_id="leaderboard"
+            )
+        ]
+        )
+    while True:
+        try:
+            res = await bot.wait_for("select_option", timeout=30)
+
+            if res.custom_id == "leaderboard" and res.channel.id == ctx.channel.id and res.component[0].value == "counting":
+                with open("counting.json") as f:
+                    counting = json.load(f)
+                leaderboard_data = {}
+                for USER in counting["users"]:
+                    leaderboard_data[f"{USER}"] = counting[f"{USER}"]
+                top_users = {k: v for k, v in sorted(leaderboard_data.items(), key=lambda item: item[1], reverse=True)}
+                names = ''
+                for position, user in enumerate(top_users):
+                    names += f'{position+1} - <@!{user}> with {top_users[user]}\n'
+                    if position == 9:
+                        break
+                embed = discord.Embed(title="Leaderboard")
+                embed.add_field(name="Names", value=names, inline=False)
+                await message.delete()
+                await ctx.send(embed=embed)
+        except asyncio.TimeoutError:
+            break
+
+
 async def counting_message(message):
     if message.webhook_id == None:
         with open("counting.json") as f:
@@ -502,6 +541,7 @@ async def on_message(message):
         
 @bot.event
 async def on_ready():
+    DiscordComponents(bot)
     await counting_recovery_mode()
     subscriber_counter.start()
     check_status.start()
