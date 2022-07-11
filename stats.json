@@ -1,0 +1,1472 @@
+{
+    "1-year-anniversary": {
+        "participants": [
+            891694092755566622,
+            728373437977853994,
+            987061662194487376,
+            963219044054466621,
+            945544213020438549,
+            930045757640282192,
+            900836824778440785,
+            882507680722350110,
+            839020427459428372,
+            833230150920831006,
+            807318173942153250,
+            796291996456714240,
+            771931350080684042,
+            766608948483850251,
+            762120784885579806,
+            736649286703382559,
+            722818717712515122,
+            715934407487389742,
+            710103418370392064,
+            698645808761012367,
+            695606057229352960,
+            626004571785003018,
+            566421730030256166,
+            497463133338861599,
+            422937893481349130,
+            409601440122798082,
+            311194546753110027,
+            831806987418861579,
+            839827921903943700,
+            266612122178420737,
+            906455300972900362,
+            825692720060301323,
+            890432783573450773,
+            701690896986406952,
+            645637027114647562,
+            827182717308764181,
+            541737667751313409,
+            933647131015794729,
+            792703197038247946,
+            688131262443028546,
+            699218257441194034,
+            658282677895561226,
+            973030496378429510,
+            882147571219447829,
+            854710206747508756,
+            848540483692265482,
+            848054553638076428,
+            846804737911554098,
+            801494907885453322,
+            769122666028072990,
+            764206307552788502,
+            733608406010822756,
+            638071430734413874,
+            512788515814375429,
+            852992674100281345,
+            668442606740701184,
+            774644050506547240,
+            371989894668746754,
+            479035720552546345,
+            670742681227493437,
+            847258000837967913,
+            389509732588716033,
+            783234951821918208,
+            780115414805774337,
+            469044905642033152,
+            942383699088015372,
+            840176372261060651,
+            697985620349550695,
+            688360906756980759,
+            682206699272274041,
+            641310202133741579,
+            506049502457626624,
+            476877110690971668,
+            225814136502747136,
+            785228262787645471,
+            939969887433015417,
+            665415753457205300,
+            785067641055477800,
+            552612981700165632,
+            966214611265286164,
+            747518626030026783,
+            814287169979809812,
+            731448375597072466,
+            795792601646497803,
+            735061368474042368,
+            728435344655122553,
+            668317457630625792,
+            601791372671975424,
+            500942298532675584,
+            390470844494643200,
+            382871864403296278,
+            375403945692102660,
+            224193233620697089,
+            817133527198990386,
+            691192341276524566,
+            726789597920755754,
+            674079752390180864,
+            860808709612896286,
+            804274858862968862,
+            841787874646687816,
+            739875607281664052,
+            834889952713113620,
+            665645529405063178,
+            852442761297657866,
+            870784590757920788,
+            887877508572282890,
+            879007037877526608,
+            819469704107261962,
+            642062699861245952,
+            451650317189120013,
+            813618402848669707,
+            787050227910705185,
+            968134432470990919,
+            636731579686846485,
+            822173959444889621,
+            837023268074029056,
+            802124408104681482,
+            782916135216742420,
+            757092047575580672,
+            858281185171603506,
+            744710677242839181,
+            650349909181988865,
+            585834029484343298,
+            664558123700453416,
+            755251519246303292,
+            861180332040781834,
+            862199878812958742,
+            689586429713449015,
+            868716331023859713,
+            989538934642049044,
+            946047810241974312,
+            849261009578754079,
+            768181677595820062,
+            759125737520758805,
+            231734935927390209,
+            939012426869928006,
+            806008134266912818,
+            943679337239027806,
+            294237109370486785,
+            822609014935781456,
+            407023148706430987,
+            967003388149641237,
+            873258950294904863
+        ],
+        "891694092755566622": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 35,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "728373437977853994": {
+            "team": [
+                "Anemo",
+                "Electro"
+            ],
+            "polls": 24,
+            "correct_answers": 21,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "987061662194487376": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 5,
+            "correct_answers": 2,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "963219044054466621": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 39,
+            "correct_answers": 27,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "945544213020438549": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 26,
+            "correct_answers": 19,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "930045757640282192": {
+            "team": [
+                "Anemo",
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 41,
+            "correct_answers": 30,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "900836824778440785": {
+            "team": [
+                "Anemo",
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 42,
+            "correct_answers": 31,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "882507680722350110": {
+            "team": [
+                "Anemo",
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "839020427459428372": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 40,
+            "correct_answers": 34,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "833230150920831006": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "807318173942153250": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "796291996456714240": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "771931350080684042": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 31,
+            "wrong_answers": 13,
+            "dismissed_answers": 0
+        },
+        "766608948483850251": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 19,
+            "correct_answers": 17,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "762120784885579806": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 25,
+            "correct_answers": 18,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "736649286703382559": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 43,
+            "correct_answers": 37,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "722818717712515122": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "715934407487389742": {
+            "team": [
+                "Anemo",
+                "Pyro"
+            ],
+            "polls": 34,
+            "correct_answers": 23,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "710103418370392064": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 15,
+            "correct_answers": 11,
+            "wrong_answers": 3,
+            "dismissed_answers": 1
+        },
+        "698645808761012367": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "695606057229352960": {
+            "team": [
+                "Anemo",
+                "Electro"
+            ],
+            "polls": 12,
+            "correct_answers": 10,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "626004571785003018": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 36,
+            "correct_answers": 26,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "566421730030256166": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 14,
+            "correct_answers": 10,
+            "wrong_answers": 4,
+            "dismissed_answers": 0
+        },
+        "497463133338861599": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 2,
+            "correct_answers": 0,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "422937893481349130": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 44,
+            "correct_answers": 34,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "409601440122798082": {
+            "team": [
+                "Anemo",
+                "Pyro",
+                "Hydro",
+                "Electro",
+                "Cryo",
+                "Geo",
+                "Dendro"
+            ],
+            "polls": 43,
+            "correct_answers": 33,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "311194546753110027": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 39,
+            "correct_answers": 32,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "831806987418861579": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 36,
+            "correct_answers": 28,
+            "wrong_answers": 8,
+            "dismissed_answers": 0
+        },
+        "839827921903943700": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 8,
+            "correct_answers": 7,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "266612122178420737": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 2,
+            "correct_answers": 2,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "906455300972900362": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 8,
+            "correct_answers": 7,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "825692720060301323": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 36,
+            "correct_answers": 29,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "890432783573450773": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "701690896986406952": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 2,
+            "correct_answers": 2,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "645637027114647562": {
+            "team": [
+                "Anemo",
+                "Geo",
+                "Dendro"
+            ],
+            "polls": 8,
+            "correct_answers": 7,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "827182717308764181": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "541737667751313409": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 8,
+            "correct_answers": 7,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "933647131015794729": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 5,
+            "correct_answers": 5,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "792703197038247946": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "688131262443028546": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "699218257441194034": {
+            "team": [
+                "Anemo"
+            ],
+            "polls": 2,
+            "correct_answers": 1,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "658282677895561226": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 43,
+            "correct_answers": 35,
+            "wrong_answers": 8,
+            "dismissed_answers": 0
+        },
+        "973030496378429510": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 44,
+            "correct_answers": 32,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "882147571219447829": {
+            "team": [
+                "Pyro",
+                "Electro"
+            ],
+            "polls": 32,
+            "correct_answers": 26,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "854710206747508756": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 44,
+            "correct_answers": 32,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "848540483692265482": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 20,
+            "correct_answers": 15,
+            "wrong_answers": 5,
+            "dismissed_answers": 0
+        },
+        "848054553638076428": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 41,
+            "correct_answers": 30,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "846804737911554098": {
+            "team": [
+                "Pyro",
+                "Hydro",
+                "Electro",
+                "Cryo",
+                "Geo"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "801494907885453322": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 10,
+            "correct_answers": 7,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "769122666028072990": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 29,
+            "correct_answers": 22,
+            "wrong_answers": 6,
+            "dismissed_answers": 1
+        },
+        "764206307552788502": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 20,
+            "correct_answers": 19,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "733608406010822756": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "638071430734413874": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "512788515814375429": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 40,
+            "correct_answers": 29,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "852992674100281345": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 8,
+            "correct_answers": 7,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "668442606740701184": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 28,
+            "correct_answers": 22,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "774644050506547240": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 8,
+            "correct_answers": 6,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "371989894668746754": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "479035720552546345": {
+            "team": [
+                "Pyro"
+            ],
+            "polls": 6,
+            "correct_answers": 6,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "670742681227493437": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 29,
+            "wrong_answers": 15,
+            "dismissed_answers": 0
+        },
+        "847258000837967913": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 30,
+            "wrong_answers": 13,
+            "dismissed_answers": 1
+        },
+        "389509732588716033": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 4,
+            "correct_answers": 0,
+            "wrong_answers": 4,
+            "dismissed_answers": 0
+        },
+        "783234951821918208": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 43,
+            "correct_answers": 33,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "780115414805774337": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 36,
+            "wrong_answers": 8,
+            "dismissed_answers": 0
+        },
+        "469044905642033152": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 11,
+            "correct_answers": 11,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "942383699088015372": {
+            "team": [
+                "Hydro",
+                "Electro"
+            ],
+            "polls": 41,
+            "correct_answers": 30,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "840176372261060651": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 32,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "697985620349550695": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 16,
+            "correct_answers": 13,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "688360906756980759": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 43,
+            "correct_answers": 33,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "682206699272274041": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 41,
+            "correct_answers": 31,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "641310202133741579": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 10,
+            "dismissed_answers": 1
+        },
+        "506049502457626624": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 42,
+            "correct_answers": 31,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "476877110690971668": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 31,
+            "wrong_answers": 13,
+            "dismissed_answers": 0
+        },
+        "225814136502747136": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 44,
+            "correct_answers": 37,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "785228262787645471": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 15,
+            "correct_answers": 13,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "939969887433015417": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 6,
+            "correct_answers": 5,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "665415753457205300": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "785067641055477800": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 6,
+            "correct_answers": 6,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "552612981700165632": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 22,
+            "correct_answers": 16,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "966214611265286164": {
+            "team": [
+                "Hydro",
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 2,
+            "correct_answers": 2,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "747518626030026783": {
+            "team": [
+                "Hydro"
+            ],
+            "polls": 3,
+            "correct_answers": 1,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "814287169979809812": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 2,
+            "correct_answers": 1,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "731448375597072466": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 43,
+            "correct_answers": 34,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "795792601646497803": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 44,
+            "correct_answers": 33,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "735061368474042368": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 39,
+            "correct_answers": 28,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "728435344655122553": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 41,
+            "correct_answers": 31,
+            "wrong_answers": 8,
+            "dismissed_answers": 2
+        },
+        "668317457630625792": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 37,
+            "correct_answers": 28,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "601791372671975424": {
+            "team": [
+                "Electro",
+                "Dendro"
+            ],
+            "polls": 5,
+            "correct_answers": 3,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "500942298532675584": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 44,
+            "correct_answers": 30,
+            "wrong_answers": 14,
+            "dismissed_answers": 0
+        },
+        "390470844494643200": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 27,
+            "correct_answers": 24,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "382871864403296278": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 24,
+            "correct_answers": 19,
+            "wrong_answers": 5,
+            "dismissed_answers": 0
+        },
+        "375403945692102660": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 25,
+            "correct_answers": 21,
+            "wrong_answers": 4,
+            "dismissed_answers": 0
+        },
+        "224193233620697089": {
+            "team": [
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 28,
+            "correct_answers": 20,
+            "wrong_answers": 8,
+            "dismissed_answers": 0
+        },
+        "817133527198990386": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 41,
+            "correct_answers": 31,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "691192341276524566": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 32,
+            "correct_answers": 22,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "726789597920755754": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 18,
+            "correct_answers": 15,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "674079752390180864": {
+            "team": [
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 32,
+            "correct_answers": 26,
+            "wrong_answers": 6,
+            "dismissed_answers": 0
+        },
+        "860808709612896286": {
+            "team": [
+                "Electro",
+                "Dendro"
+            ],
+            "polls": 3,
+            "correct_answers": 3,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "804274858862968862": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 7,
+            "correct_answers": 7,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "841787874646687816": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 34,
+            "correct_answers": 25,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "739875607281664052": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "834889952713113620": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "665645529405063178": {
+            "team": [
+                "Electro",
+                "Cryo"
+            ],
+            "polls": 30,
+            "correct_answers": 22,
+            "wrong_answers": 8,
+            "dismissed_answers": 0
+        },
+        "852442761297657866": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 7,
+            "correct_answers": 5,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "870784590757920788": {
+            "team": [
+                "Electro"
+            ],
+            "polls": 8,
+            "correct_answers": 5,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "887877508572282890": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 3,
+            "correct_answers": 1,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "879007037877526608": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 37,
+            "correct_answers": 26,
+            "wrong_answers": 11,
+            "dismissed_answers": 0
+        },
+        "819469704107261962": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 44,
+            "correct_answers": 32,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "642062699861245952": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 44,
+            "correct_answers": 31,
+            "wrong_answers": 12,
+            "dismissed_answers": 1
+        },
+        "451650317189120013": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 38,
+            "correct_answers": 31,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "813618402848669707": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 6,
+            "correct_answers": 6,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "787050227910705185": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 5,
+            "correct_answers": 5,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "968134432470990919": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 2,
+            "correct_answers": 1,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "636731579686846485": {
+            "team": [
+                "Cryo"
+            ],
+            "polls": 4,
+            "correct_answers": 3,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "822173959444889621": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 44,
+            "correct_answers": 42,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "837023268074029056": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 7,
+            "correct_answers": 5,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "802124408104681482": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 35,
+            "correct_answers": 26,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "782916135216742420": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 26,
+            "correct_answers": 23,
+            "wrong_answers": 3,
+            "dismissed_answers": 0
+        },
+        "757092047575580672": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 20,
+            "correct_answers": 13,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "858281185171603506": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "744710677242839181": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 42,
+            "correct_answers": 32,
+            "wrong_answers": 10,
+            "dismissed_answers": 0
+        },
+        "650349909181988865": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 8,
+            "correct_answers": 8,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "585834029484343298": {
+            "team": [
+                "Unknown",
+                "Pyro",
+                "Hydro",
+                "Electro",
+                "Cryo",
+                "Geo",
+                "Anemo",
+                "Dendro"
+            ],
+            "polls": 3,
+            "correct_answers": 3,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "664558123700453416": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 12,
+            "correct_answers": 11,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "755251519246303292": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 3,
+            "correct_answers": 3,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "861180332040781834": {
+            "team": [
+                "Dendro"
+            ],
+            "polls": 44,
+            "correct_answers": 39,
+            "wrong_answers": 5,
+            "dismissed_answers": 0
+        },
+        "862199878812958742": {
+            "team": [
+                "Dendro"
+            ],
+            "polls": 44,
+            "correct_answers": 32,
+            "wrong_answers": 12,
+            "dismissed_answers": 0
+        },
+        "689586429713449015": {
+            "team": [
+                "Dendro"
+            ],
+            "polls": 43,
+            "correct_answers": 34,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "868716331023859713": {
+            "team": [
+                "Dendro"
+            ],
+            "polls": 3,
+            "correct_answers": 2,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "989538934642049044": {
+            "team": [
+                "Dendro"
+            ],
+            "polls": 2,
+            "correct_answers": 2,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "946047810241974312": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 3,
+            "correct_answers": 1,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "849261009578754079": {
+            "team": [
+                "Geo"
+            ],
+            "polls": 31,
+            "correct_answers": 22,
+            "wrong_answers": 9,
+            "dismissed_answers": 0
+        },
+        "768181677595820062": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "759125737520758805": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 44,
+            "correct_answers": 31,
+            "wrong_answers": 13,
+            "dismissed_answers": 0
+        },
+        "231734935927390209": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 28,
+            "correct_answers": 21,
+            "wrong_answers": 7,
+            "dismissed_answers": 0
+        },
+        "939012426869928006": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 9,
+            "correct_answers": 7,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "806008134266912818": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "943679337239027806": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 1,
+            "correct_answers": 0,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        },
+        "294237109370486785": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 8,
+            "correct_answers": 6,
+            "wrong_answers": 2,
+            "dismissed_answers": 0
+        },
+        "822609014935781456": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 4,
+            "correct_answers": 0,
+            "wrong_answers": 4,
+            "dismissed_answers": 0
+        },
+        "407023148706430987": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 4,
+            "correct_answers": 4,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "967003388149641237": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 1,
+            "correct_answers": 1,
+            "wrong_answers": 0,
+            "dismissed_answers": 0
+        },
+        "873258950294904863": {
+            "team": [
+                "Unknown"
+            ],
+            "polls": 3,
+            "correct_answers": 2,
+            "wrong_answers": 1,
+            "dismissed_answers": 0
+        }
+    }
+}
