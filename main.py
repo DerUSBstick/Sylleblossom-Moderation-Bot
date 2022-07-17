@@ -472,7 +472,37 @@ async def leaderboard(ctx):
         except asyncio.TimeoutError:
             break
 
+@bot.event
+async def on_member_join(member):
+    responses = [
+        "{m} joined the party.",
+        "Glad you're here, {m}",
+        "{m} just joined. Everyone, look busy!",
+        "A wild {m} has appeared.",
+        "Brace yourselves. {m} just joined the server.",
+        "{m] just slid into the server.",
+        "It's a bird! It's a plane! Nevermind, it's just {m}",
+        "Never gonna give {m} up. Never gonna let {m} down.",
+        "Hey! Listen! {m} has joined!",
+        "We've been expecting you {m}.",
+        "Welcome, {m}. We hope youi brought pizza.",
+        "Heyo, {m} deserve a warming welcome!",
+        "{m} is here finally so bring the pizza over everyone!",
+        "{m}! Thank you for coming!",
+        "{m} has come on to the stage, give them some applause."
+    ]
+    if member.guild.id == 854733975197188108:
+        channel = bot.get_channel(854733975977197568)
+        response = random.choice(responses).replace("{m}", f"{member.mention}")
+        await channel.send(response)
 
+async def boost_webhook(user):
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(f'https://discord.com/api/webhooks/', adapter=AsyncWebhookAdapter(session))
+        await webhook.send(content=f"Woah! {user.mention} Thank you ever so much for the boost! You're a real one <:grabsyouwithlove:973217151135645696>", username="Sylle", avatar_url="https://media.discordapp.net/attachments/")
+        await webhook.send(content="https://media.discordapp.net/attachments/", username="Sylle", avatar_url="https://media.discordapp.net/attachments/")
+        await session.close()
+        
 async def counting_message(message):
     if message.webhook_id == None:
         with open("counting.json") as f:
@@ -526,6 +556,8 @@ async def convert_to_date(time):
         
 @bot.event
 async def on_message(message):
+    if f"{message.type}" == "MessageType.premium_guild_subscription":
+        await boost_webhook(message.author)
     if message.attachments != []:
         im = 0
         log_channel = bot.get_channel(965623933871226890)
