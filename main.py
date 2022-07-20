@@ -553,10 +553,15 @@ async def convert_to_date(time):
     result = datetime.datetime.strptime(time, "%Y/%m/%d %H:%M:%S")
     return result        
         
-@bot.event
+bot.event
 async def on_message(message):
     if f"{message.type}" == "MessageType.premium_guild_subscription":
+        return
         await boost_webhook(message.author)
+    if message.channel.id == 996112049602035832 and not message.author.bot:
+        if message.content.lower() == "photos":
+            await handle_photo_request(message.author.id, message.guild.id)
+        await message.delete()
     if message.attachments != []:
         im = 0
         log_channel = bot.get_channel(965623933871226890)
@@ -569,7 +574,78 @@ async def on_message(message):
     if message.channel.id == 981634202049069106:
         await counting_message(message)
     await bot.process_commands(message)
-        
+
+async def check_roles(USER, ROLE, GUILD):
+    GUILD = bot.get_guild(GUILD)
+    user = GUILD.get_member(USER)
+    for user_role in user.roles:
+        if user_role.id == ROLE:
+            return True
+    return False
+async def handle_photo_request(USER, GUILD):
+    log_channel = bot.get_channel(997170116275998810)
+    request_channel = bot.get_channel(996112049602035832)
+    role_check = await check_roles(USER, 958047463179169842, GUILD)
+    if role_check == True:
+        return await request_channel.send("You can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
+    guild = bot.get_guild(GUILD)
+    user = guild.get_member(USER)
+    with open("data/requests.json") as f:
+        requests = json.load(f)
+    next = requests["next"]
+    embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval", color=0xFFFFFF)
+    message2 = await log_channel.send(
+        content="**Photo Permissions Role**",
+        embed=embed,
+        components=[
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
+        ]
+    )
+    #print(message.components[0].components[0].id)
+    requests["next"] += 1
+    requests["id"].append(next)
+    requests[f"{next}"] = {
+        "user": user.id,
+        "message": {
+            "channel": message2.channel.id,
+            "message": message2.id
+        },
+        "action": "photo",
+        "status": "waiting"
+    }
+    with open("data/requests.json", "w+") as f:
+        json.dump(requests, f, indent=4)
+@bot.event
+async def on_button_click(interaction):
+    id = interaction.component.id
+    id = id.split(".")
+    await handle_requests(interaction.component.label, id[0])
+    #print(interaction.component.label)
+    #print(id[0])
+    #await interaction.respond(content=f"You clicked {interaction.component.label}")
+async def handle_requests(action: str, id: int):
+    with open("data/requests.json") as f:
+        requests = json.load(f)
+    requests[f"{id}"]["status"] = f"{str(action).lower()}"
+    member = requests[f"{id}"]["user"]
+    channel = requests[f"{id}"]["message"]["channel"]
+    message = requests[f"{id}"]["message"]["message"]
+    action = requests[f"{id}"]["action"]
+    status = requests[f"{id}"]["status"]
+    await update_message(member, message, channel, action, status)
+    with open("data/requests.json", "w+") as f:
+        json.dump(requests, f, indent=4)
+async def update_message(member, message, channel, action, status):
+    guild = bot.get_guild(854733975197188108)
+    user = guild.get_member(member)
+    channel = bot.get_channel(channel)
+    message = await channel.fetch_message(message)
+    embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: {status}", color=0xFFFFFF)
+    await message.edit(embed=embed)
+    
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
