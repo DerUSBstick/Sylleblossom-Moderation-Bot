@@ -575,22 +575,51 @@ async def on_message(message):
     await bot.process_commands(message)
 
 async def check_roles(USER, ROLE, GUILD):
-    GUILD = bot.get_guild(GUILD)
     user = GUILD.get_member(USER)
     for user_role in user.roles:
         if user_role.id == ROLE:
             return True
     return False
-async def handle_photo_request(USER, GUILD):
+async def get_guild_user(USER):
+    guild = bot.get_guild(854733975197188108)
+    user = guild.get_member(USER)
+    return guild, user
+async def get_request_channels():
     log_channel = bot.get_channel(997170116275998810)
     request_channel = bot.get_channel(996112049602035832)
-    role_check = await check_roles(USER, 958047463179169842, GUILD)
-    if role_check == True:
-        return await request_channel.send("You can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
-    guild = bot.get_guild(GUILD)
-    user = guild.get_member(USER)
+    return log_channel, request_channel
+async def request_data():
     with open("data/requests.json") as f:
         requests = json.load(f)
+    return requests
+async def request_edit_data():
+    pass
+async def request_write_data(data):
+    with open("data/requests.json", "w+") as f:
+        json.dump(data, f, indent=4)
+async def request_message(action):
+    message:list = {
+        "photos": {
+            "log_message": "{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+            "embed": {
+                "description": "{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+                "color": 0xFFFFFF
+            },
+            "components": [
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
+            ]
+        }
+    }
+async def handle_photo_request(USER):
+    log_channel, request_channel = await get_request_channels()
+    guild, user = await get_guild_user(USER)
+    role_check = await check_roles(USER, 958047463179169842, guild)
+    if role_check == True:
+        return await request_channel.send("You can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
+    requests = await request_data()
     next = requests["next"]
     embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval", color=0xFFFFFF)
     message2 = await log_channel.send(
@@ -615,8 +644,7 @@ async def handle_photo_request(USER, GUILD):
         "action": "photo",
         "status": "waiting"
     }
-    with open("data/requests.json", "w+") as f:
-        json.dump(requests, f, indent=4)
+    await request_write_data(requests)
 @bot.event
 async def on_button_click(interaction):
     id = interaction.component.id
