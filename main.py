@@ -25,7 +25,6 @@ bot = commands.Bot(command_prefix=prefix, case_insensitive=True, intents=intents
 async def stats(ctx):
     with open("stats.json") as f:
         stats = json.load(f)
-    #"Anemo", "Pyro", "Hydro", "Electro", "Cryo", "Geo", "Dendro"],
     VISION_EMOJIS = {
         "Anemo": "<:Anemo:854743841289273384>",
         "Pyro": "<:Pyro:854743894012985375>",
