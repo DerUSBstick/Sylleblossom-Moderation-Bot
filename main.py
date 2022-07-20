@@ -600,19 +600,24 @@ async def request_write_data(data):
 async def request_message(action):
     message:list = {
         "photos": {
-            "log_message": "{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+            "content": "**Photo Permissions Role**",
+            "check_failed": "You can't request permissions for sending Images in <#854733975977197570>",
+            "check_succeeded": "Your request has been sent to the Server Team. Please be patient",
+            "log_message": "{user} ({userid}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
             "embed": {
-                "description": "{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+                "description": "{user} ({userid}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
                 "color": 0xFFFFFF
-            },
-            "components": [
+            }
+        },
+        "components": [
             Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
             Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
             Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
             Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
-            ]
-        }
+        ]
     }
+    log_message:list = [message[f"{action}"]["content"], message[f"{action}"]["embed"]["description"], message[f"{action}"]["embed"]["color"]]
+    return message[f"{action}"]["check_succeeded"], log_message
 async def handle_photo_request(USER):
     log_channel, request_channel = await get_request_channels()
     guild, user = await get_guild_user(USER)
@@ -620,26 +625,40 @@ async def handle_photo_request(USER):
     if role_check == True:
         return await request_channel.send("You can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
     requests = await request_data()
+    request_channel_message, log_channel_message = await request_message("photos")
+    log_channel_message[1] = log_channel_message[1].replace("{user}", f"{user}")
+    log_channel_message[1] = log_channel_message[1].replace("{userid}", f"{user.id}")
     next = requests["next"]
-    embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval", color=0xFFFFFF)
-    message2 = await log_channel.send(
-        content="**Photo Permissions Role**",
+    embed = discord.Embed(description=log_channel_message[1], color=log_channel_message[2])
+    log_channel_message = await log_channel.send(
+        content=log_channel_message[0],
         embed=embed,
         components=[
             Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
             Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
             Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
             Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
-        ]
-    )
+            ]
+        )
+    #embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval", color=0xFFFFFF)
+    #message2 = await log_channel.send(
+    #    content="**Photo Permissions Role**",
+    #    embed=embed,
+    #    components=[
+    #        Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
+    #        Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
+    #        Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
+    #        Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
+    #    ]
+    #)
     #print(message.components[0].components[0].id)
     requests["next"] += 1
     requests["id"].append(next)
     requests[f"{next}"] = {
         "user": user.id,
         "message": {
-            "channel": message2.channel.id,
-            "message": message2.id
+            "channel": log_channel_message.channel.id,
+            "message": log_channel_message.id
         },
         "action": "photo",
         "status": "waiting"
