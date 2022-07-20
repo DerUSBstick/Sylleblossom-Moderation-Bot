@@ -553,7 +553,7 @@ async def convert_to_date(time):
     result = datetime.datetime.strptime(time, "%Y/%m/%d %H:%M:%S")
     return result        
         
-bot.event
+@bot.event
 async def on_message(message):
     if f"{message.type}" == "MessageType.premium_guild_subscription":
         return
