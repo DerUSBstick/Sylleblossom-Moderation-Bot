@@ -556,7 +556,6 @@ async def convert_to_date(time):
 @bot.event
 async def on_message(message):
     if f"{message.type}" == "MessageType.premium_guild_subscription":
-        return
         await boost_webhook(message.author)
     if message.channel.id == 996112049602035832 and not message.author.bot:
         if message.content.lower() == "photos":
