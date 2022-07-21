@@ -435,7 +435,6 @@ async def imperms(ctx, user: discord.Member, *, reason=None):
         
 #Counting Module
 @bot.command()
-@commands.is_owner()
 async def leaderboard(ctx):
     message = await ctx.send(
         components=[
@@ -456,20 +455,24 @@ async def leaderboard(ctx):
                 with open("counting.json") as f:
                     counting = json.load(f)
                 leaderboard_data = {}
+                place = " "
                 for USER in counting["users"]:
                     leaderboard_data[f"{USER}"] = counting[f"{USER}"]
                 top_users = {k: v for k, v in sorted(leaderboard_data.items(), key=lambda item: item[1], reverse=True)}
-                names = ''
+                names = '```md\nRank. | Score | User \n======================================\n'
                 for position, user in enumerate(top_users):
-                    names += f'{position+1} - <@!{user}> with {top_users[user]}\n'
+                    placeholder = place * (5 - int(len(str(top_users[user]))))
+                    users = await ctx.guild.fetch_member(user)
+                    names += f'{position+1}.    | {int(top_users[user])}{placeholder} | {users.name}\n'
                     if position == 9:
                         break
-                embed = discord.Embed(title="Leaderboard")
-                embed.add_field(name="Names", value=names, inline=False)
-                await message.delete()
+                names += "```"
+                embed = discord.Embed(title="Leaderboard", description=names)
+                #embed.add_field(name="Names", value=names, inline=False)
                 await ctx.send(embed=embed)
         except asyncio.TimeoutError:
-            break
+            pass
+        await message.delete()
 
 @bot.event
 async def on_member_join(member):
