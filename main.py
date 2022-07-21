@@ -559,7 +559,9 @@ async def on_message(message):
         await boost_webhook(message.author)
     if message.channel.id == 996112049602035832 and not message.author.bot:
         if message.content.lower() == "photos":
-            await handle_photo_request(message.author.id, message.guild.id)
+            await handle_request(message.content, message.author.id, "photos")
+        else:
+            await handle_request(message.content, message.author.id, "nickname")
         await message.delete()
     if message.attachments != []:
         im = 0
@@ -573,7 +575,6 @@ async def on_message(message):
     if message.channel.id == 981634202049069106:
         await counting_message(message)
     await bot.process_commands(message)
-
 async def check_roles(USER, ROLE, GUILD):
     user = GUILD.get_member(USER)
     for user_role in user.roles:
@@ -597,61 +598,60 @@ async def request_edit_data():
 async def request_write_data(data):
     with open("data/requests.json", "w+") as f:
         json.dump(data, f, indent=4)
-async def request_message(action):
+async def request_message(action, id):
+    next = id
     message:list = {
         "photos": {
             "content": "**Photo Permissions Role**",
             "check_failed": "You can't request permissions for sending Images in <#854733975977197570>",
-            "check_succeeded": "Your request has been sent to the Server Team. Please be patient",
-            "log_message": "{user} ({userid}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+            "check_succeeded": "{usermention}, your request has been sent to the Server Team. Please be patient",
             "embed": {
-                "description": "{user} ({userid}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval",
+                "description": "{user} ({userid}) requests permission to send images in <#854733975977197570>.\nStatus: Waiting for Approval",
+                "color": 0xFFFFFF
+            }
+        },
+        "nickname": {
+            "content": "**New Nickname Request**",
+            "check_failed": "Your Nickname can't be longer than 32 Characters.",
+            "check_succeeded": "{usermention}, your request has been sent to the Server Team. Please be patient",
+            "embed": {
+                "description": "{user} ({userid}) requests a new Nickname\nNickname: {nickname}\nStatus: Waiting for Approval",
                 "color": 0xFFFFFF
             }
         },
         "components": [
-            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
-            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
-            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
-            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}-0"),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}-1"),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}-2"),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}-3")
         ]
     }
     log_message:list = [message[f"{action}"]["content"], message[f"{action}"]["embed"]["description"], message[f"{action}"]["embed"]["color"]]
-    return message[f"{action}"]["check_succeeded"], log_message
-async def handle_photo_request(USER):
+    return message[f"{action}"]["check_succeeded"], log_message, message["components"]
+async def handle_request(MESSAGECONTENT, USER, ACTION):
     log_channel, request_channel = await get_request_channels()
     guild, user = await get_guild_user(USER)
-    role_check = await check_roles(USER, 958047463179169842, guild)
-    if role_check == True:
-        return await request_channel.send("You can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
+    if ACTION == "photos":
+        role_check = await check_roles(USER, 958047463179169842, guild)
+        if role_check == True:
+            return await request_channel.send(f"{user.mention}, you can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
+    elif ACTION == "nickname":
+        if len(MESSAGECONTENT) > 32:
+            return await request_channel.send(f"{user.mention}, your Nickname can't be longer than 32 Characters.", delete_after=4)
     requests = await request_data()
-    request_channel_message, log_channel_message = await request_message("photos")
+    request_channel_message, log_channel_message, components = await request_message(ACTION, requests["next"])
     log_channel_message[1] = log_channel_message[1].replace("{user}", f"{user}")
     log_channel_message[1] = log_channel_message[1].replace("{userid}", f"{user.id}")
+    log_channel_message[1] = log_channel_message[1].replace("{nickname}", f"{MESSAGECONTENT}")
+    request_channel_message = request_channel_message.replace("{usermention}", f"{user.mention}")
     next = requests["next"]
     embed = discord.Embed(description=log_channel_message[1], color=log_channel_message[2])
+    await request_channel.send(content=request_channel_message, delete_after=5)
     log_channel_message = await log_channel.send(
         content=log_channel_message[0],
         embed=embed,
-        components=[
-            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
-            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
-            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
-            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
-            ]
-        )
-    #embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: Waiting for Approval", color=0xFFFFFF)
-    #message2 = await log_channel.send(
-    #    content="**Photo Permissions Role**",
-    #    embed=embed,
-    #    components=[
-    #        Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0"),
-    #        Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1"),
-    #        Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2"),
-    #        Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3")
-    #    ]
-    #)
-    #print(message.components[0].components[0].id)
+        components=components
+    )
     requests["next"] += 1
     requests["id"].append(next)
     requests[f"{next}"] = {
@@ -660,14 +660,14 @@ async def handle_photo_request(USER):
             "channel": log_channel_message.channel.id,
             "message": log_channel_message.id
         },
-        "action": "photo",
+        "action": f"{ACTION}",
         "status": "waiting"
     }
     await request_write_data(requests)
 @bot.event
 async def on_button_click(interaction):
     id = interaction.component.id
-    id = id.split(".")
+    id = id.split("-")
     await handle_requests(interaction.component.label, id[0])
     #print(interaction.component.label)
     #print(id[0])
@@ -681,16 +681,25 @@ async def handle_requests(action: str, id: int):
     message = requests[f"{id}"]["message"]["message"]
     action = requests[f"{id}"]["action"]
     status = requests[f"{id}"]["status"]
-    await update_message(member, message, channel, action, status)
+    await update_message(member, message, channel, action, status, id)
     with open("data/requests.json", "w+") as f:
         json.dump(requests, f, indent=4)
-async def update_message(member, message, channel, action, status):
+async def update_message(member, message, channel, action, status, id):
+    next = id
     guild = bot.get_guild(854733975197188108)
     user = guild.get_member(member)
     channel = bot.get_channel(channel)
     message = await channel.fetch_message(message)
     embed = discord.Embed(description=f"{user} ({user.id}) requests permission to send imamges in <#854733975977197570>.\nStatus: {status}", color=0xFFFFFF)
-    await message.edit(embed=embed)
+    await message.edit(
+        embed=embed,
+        components=[
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}.0", disabled=True),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}.1", disabled=True),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}.2", disabled=True),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}.3", disabled=True)
+            ]
+        )
     
 @bot.event
 async def on_ready():
