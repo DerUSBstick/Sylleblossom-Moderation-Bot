@@ -555,11 +555,29 @@ async def convert_to_date(time):
     time = time.split(".")[0].replace("-", "/")
     result = datetime.datetime.strptime(time, "%Y/%m/%d %H:%M:%S")
     return result        
-        
+@bot.event
+async def on_button_click(interaction):
+    status = {
+        "0": "approve",
+        "1": "deny",
+        "2": "ignore",
+        "3": "blacklist"
+    }
+    id = interaction.component.id
+    id = id.split("-")
+    await handle_button_press_reuqest(id[0], status[id[1]])
+    await interaction.respond(content="Request has been processed.")
+
 @bot.event
 async def on_message(message):
     if f"{message.type}" == "MessageType.premium_guild_subscription":
         await boost_webhook(message.author)
+    if message.channel.id == 996112049602035832 and not message.author.bot:
+        if message.content.lower() == "photos":
+            await handle_request(message.content, message.author.id, "photos")
+        else:
+            await handle_request(message.content, message.author.id, "nickname")
+        await message.delete()
     if message.attachments != []:
         im = 0
         log_channel = bot.get_channel(965623933871226890)
@@ -572,7 +590,178 @@ async def on_message(message):
     if message.channel.id == 981634202049069106:
         await counting_message(message)
     await bot.process_commands(message)
-        
+async def check_roles(USER, ROLE, GUILD):
+    user = GUILD.get_member(USER)
+    for user_role in user.roles:
+        if user_role.id == ROLE:
+            return True
+    return False
+async def check_nickname(messagecontent):
+    if len(messagecontent) > 32:
+        return True
+    return False
+async def get_guild_user(USER):
+    guild = bot.get_guild(854733975197188108)
+    user = guild.get_member(USER)
+    return guild, user
+async def get_request_channels():
+    log_channel = bot.get_channel(997170116275998810)
+    request_channel = bot.get_channel(996112049602035832)
+    return log_channel, request_channel
+async def request_data():
+    with open("data/requests.json") as f:
+        requests = json.load(f)
+    return requests
+async def request_edit_data():
+    pass
+async def request_write_data(data):
+    with open("data/requests.json", "w+") as f:
+        json.dump(data, f, indent=4)
+async def request_get_action(requests, id: int):
+    try:
+        return requests[f"{id}"]["action"]
+    except KeyError:
+        return KeyError
+async def on_approve(USER, MESSAGECONTENT=None):
+    guild, user = await get_guild_user(USER)
+    if MESSAGECONTENT == None:
+        role = guild.get_role(995108752040656929)
+        await user.add_roles(role)
+    else:
+        await user.edit(nick=MESSAGECONTENT)
+    await user.send("Your Request has been approved.")
+async def on_deny(USER):
+    guild, user = await get_guild_user(USER)
+    await user.send("Your Request has been denied.")
+async def on_blacklist(USER):
+    requests = await request_data()
+    requests["blacklist"].append(USER)
+    await request_write_data(requests)
+async def get_requests_informations(requests, id: int):
+    member = requests[f"{id}"]["user"]
+    channel = requests[f"{id}"]["message"]["channel"]
+    message = requests[f"{id}"]["message"]["message"]
+    action = requests[f"{id}"]["action"]
+    status = requests[f"{id}"]["status"]
+    informations:list = [requests[f"{id}"]["user"], requests[f"{id}"]["message"]["channel"], requests[f"{id}"]["message"]["message"], requests[f"{id}"]["status"]]
+    return informations
+async def request_message(action, id, disabled: bool):
+    next = id
+    message:list = {
+        "photos": {
+            "content": "**Photo Permissions Role**",
+            "check_failed": "You can't request permissions for sending Images in <#854733975977197570>",
+            "check_succeeded": "{usermention}, your request has been sent to the Server Team. Please be patient",
+            "embed": {
+                "description": "{user} ({userid} {usermention}) requests permission to send images in <#854733975977197570>.\nStatus: {status}",
+                "color": 0xFFFFFF
+            }
+        },
+        "nickname": {
+            "content": "**New Nickname Request**",
+            "check_failed": "Your Nickname can't be longer than 32 Characters.",
+            "check_succeeded": "{usermention}, your request has been sent to the Server Team. Please be patient",
+            "embed": {
+                "description": "{user} ({userid} {usermention}) requests a new Nickname\nNickname: {nickname}\nStatus: {status}",
+                "color": 0xFFFFFF
+            }
+        },
+        "components": [
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}-0"),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}-1"),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}-2"),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}-3")
+        ],
+        "components_disabled": [
+            Button(style=ButtonStyle.green, label="Approve", custom_id="approve", id=f"{next}-0", disabled=True),
+            Button(style=ButtonStyle.red, label="Deny", custom_id="deny", id=f"{next}-1", disabled=True),
+            Button(style=ButtonStyle.blue, label="Ignore", custom_id="ignore", id=f"{next}-2", disabled=True),
+            Button(style=ButtonStyle.gray, label="Blacklist", custom_id="blacklist", id=f"{next}-3", disabled=True)
+        ]
+    }
+    if disabled:
+        components = message["components_disabled"]
+    else:
+        components = message["components"] 
+    log_message:list = [message[f"{action}"]["content"], message[f"{action}"]["embed"]["description"], message[f"{action}"]["embed"]["color"]]
+    return message[f"{action}"]["check_succeeded"], log_message, components
+async def handle_request(MESSAGECONTENT, USER, ACTION):
+    log_channel, request_channel = await get_request_channels()
+    guild, user = await get_guild_user(USER)
+    if ACTION == "photos":
+        role_check = await check_roles(USER, 958047463179169842, guild)
+        if role_check == True:
+            return await request_channel.send(f"{user.mention}, you can't request permissions for sending Images in <#854733975977197570>", delete_after=4)
+    elif ACTION == "nickname":
+        nickname_check = await check_nickname(MESSAGECONTENT)
+        if nickname_check == True:
+            return await request_channel.send(f"{user.mention}, your Nickname can't be longer than 32 Characters.", delete_after=4)
+    requests = await request_data()
+    if USER in requests["blacklist"]:
+        return await request_channel.send("You can't send a request", delete_after=4)
+    request_channel_message, log_channel_message, components = await request_message(ACTION, requests["next"], False)
+    log_channel_message[1] = log_channel_message[1].replace("{user}", f"{user}")
+    log_channel_message[1] = log_channel_message[1].replace("{userid}", f"{user.id}")
+    log_channel_message[1] = log_channel_message[1].replace("{nickname}", f"{MESSAGECONTENT}")
+    log_channel_message[1] = log_channel_message[1].replace("{status}", f"Waiting for approval")
+    request_channel_message = request_channel_message.replace("{usermention}", f"{user.mention}")
+    next = requests["next"]
+    embed = discord.Embed(description=log_channel_message[1], color=log_channel_message[2])
+    embed.set_footer(text=f"ID: {next}")
+    await request_channel.send(content=request_channel_message, delete_after=5)
+    log_channel_message = await log_channel.send(
+        content=log_channel_message[0],
+        embed=embed,
+        components=components
+    )
+    requests["next"] += 1
+    requests["id"].append(next)
+    requests[f"{next}"] = {
+        "user": user.id,
+        "message": {
+            "channel": log_channel_message.channel.id,
+            "message": log_channel_message.id
+        },
+        "action": f"{ACTION}",
+        "status": "waiting"
+    }
+    if ACTION == "nickname":
+        requests[f"{next}"]["nickname"] = MESSAGECONTENT
+    await request_write_data(requests)
+async def handle_button_press_reuqest(id: int, status):
+    messagecontent=None
+    requests = await request_data()
+    action = await request_get_action(requests, id)
+    requests[f"{id}"]["status"] = f"{str(status).lower()}"
+    informations = await get_requests_informations(requests, id)
+    if action == "nickname":
+        messagecontent = requests[f"{id}"]["nickname"]
+    if status == "approve":
+        await on_approve(informations[0], messagecontent if action == "nickname" else None)
+    elif status == "deny":
+        await on_deny(informations[0])
+    elif status == "blacklist":
+        requests["blacklist"].append(informations[0])
+    await update_log_channel_message(informations, action, id, status, messagecontent)
+    await request_write_data(requests)
+async def update_log_channel_message(informations: list, action, id: int, status, messagecontent=None):
+    guild, user = await get_guild_user(informations[0])
+    log_channel, request_channel = await get_request_channels()
+    message = await log_channel.fetch_message(informations[2])
+    request_channel_message, log_channel_message, components = await request_message(action, id, True)
+    log_channel_message[1] = log_channel_message[1].replace("{user}", f"{user}")
+    log_channel_message[1] = log_channel_message[1].replace("{userid}", f"{user.id}")
+    if messagecontent != None:
+        log_channel_message[1] = log_channel_message[1].replace("{nickname}", f"{messagecontent}")
+    log_channel_message[1] = log_channel_message[1].replace("{status}", f"{status}")
+    embed = discord.Embed(description=log_channel_message[1], color=log_channel_message[2])
+    embed.set_footer(text=f"ID: {id}")
+    await message.edit(
+        content=log_channel_message[0],
+        embed=embed,
+        components=components
+    )
+    
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
