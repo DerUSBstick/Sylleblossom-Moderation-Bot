@@ -626,11 +626,20 @@ async def on_approve(USER, MESSAGECONTENT=None):
         await user.add_roles(role)
     else:
         await user.edit(nick=MESSAGECONTENT)
+    await user.send("Your Request has been approved.")
+async def on_deny(USER):
+    guild, user = await get_guild_user(USER)
+    await user.send("Your Request has been denied.")
 async def on_blacklist(USER):
     requests = await request_data()
     requests["blacklist"].append(USER)
     await request_write_data(requests)
 async def get_requests_informations(requests, id: int):
+    member = requests[f"{id}"]["user"]
+    channel = requests[f"{id}"]["message"]["channel"]
+    message = requests[f"{id}"]["message"]["message"]
+    action = requests[f"{id}"]["action"]
+    status = requests[f"{id}"]["status"]
     informations:list = [requests[f"{id}"]["user"], requests[f"{id}"]["message"]["channel"], requests[f"{id}"]["message"]["message"], requests[f"{id}"]["status"]]
     return informations
 async def request_message(action, id, disabled: bool):
@@ -726,6 +735,8 @@ async def handle_button_press_reuqest(id: int, status):
         messagecontent = requests[f"{id}"]["nickname"]
     if status == "approve":
         await on_approve(informations[0], messagecontent if action == "nickname" else None)
+    elif status == "deny":
+        await on_deny(informations[0])
     elif status == "blacklist":
         requests["blacklist"].append(informations[0])
     await update_log_channel_message(informations, action, id, status, messagecontent)
