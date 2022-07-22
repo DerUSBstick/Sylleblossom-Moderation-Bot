@@ -631,11 +631,6 @@ async def on_blacklist(USER):
     requests["blacklist"].append(USER)
     await request_write_data(requests)
 async def get_requests_informations(requests, id: int):
-    member = requests[f"{id}"]["user"]
-    channel = requests[f"{id}"]["message"]["channel"]
-    message = requests[f"{id}"]["message"]["message"]
-    action = requests[f"{id}"]["action"]
-    status = requests[f"{id}"]["status"]
     informations:list = [requests[f"{id}"]["user"], requests[f"{id}"]["message"]["channel"], requests[f"{id}"]["message"]["message"], requests[f"{id}"]["status"]]
     return informations
 async def request_message(action, id, disabled: bool):
